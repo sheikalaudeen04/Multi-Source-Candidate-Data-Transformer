@@ -1,6 +1,6 @@
 # Multi-Source Candidate Data Transformer
 
-Merges candidate data from multiple structured/unstructured sources (CSV, ATS JSON, résumé, recruiter notes) into one canonical, confidence-scored, provenance-tracked profile — reshapeable at runtime via config, no code changes.
+Merges candidate data from multiple structured/unstructured sources (CSV, ATS JSON, résumé, recruiter notes) into one canonical, confidence-scored, provenance-tracked profile - reshapable at runtime via config, no code changes.
 
 Built for the Eightfold Engineering Intern (Jul–Dec 2026) take-home assignment.
 
@@ -26,11 +26,11 @@ flowchart LR
     style I fill:#f5f5f5,stroke:#555555,color:#000000
 ```
 
-CLI and Web UI are thin wrappers around the same `run_pipeline()` call — the UI just adds file upload/download via S3 around it.
+CLI and Web UI are thin wrappers around the same `run_pipeline()` call - the UI just adds file upload/download via S3 around it.
 
 ---
 
-## Getting Started — CLI
+## Getting Started - CLI
 
 ### 1. Clone & install
 
@@ -40,13 +40,13 @@ cd eightfold-transformer
 pip install -r requirements.txt
 ```
 
-### 2. Run — default config
+### 2. Run - default config
 
 ```bash
 python cli.py --csv sample_inputs/recruiter.csv --ats-json sample_inputs/ats.json --resume sample_inputs/resume.docx --notes sample_inputs/notes.txt --out output/profiles.json
 ```
 
-### 3. Run — custom config
+### 3. Run - custom config
 
 ```bash
 python cli.py --csv sample_inputs/recruiter.csv --ats-json sample_inputs/ats.json --resume sample_inputs/resume.docx --notes sample_inputs/notes.txt --config config/example_config.json --out output/profiles_custom.json
@@ -54,21 +54,21 @@ python cli.py --csv sample_inputs/recruiter.csv --ats-json sample_inputs/ats.jso
 
 `config/example_config.json` renames fields (`emails[0]` → `primary_email`), re-normalizes phone/skills, subsets the output, and turns provenance off — same engine, same code path as the default.
 
-### 4. Run — with the conflict-resolution ledger
+### 4. Run - with the conflict-resolution ledger
 
 ```bash
 python cli.py --csv sample_inputs/recruiter.csv --ats-json sample_inputs/ats.json --resume sample_inputs/resume.docx --notes sample_inputs/notes.txt --verbose --out output/profiles.json
 ```
 
-`--verbose` prints one line per non-trivial resolution decision to stderr — e.g. the résumé's fully-detailed experience entry beating the ATS's bare company name via `density_win`.
+`--verbose` prints one line per non-trivial resolution decision to stderr - e.g. the résumé's fully-detailed experience entry beating the ATS's bare company name via `density_win`.
 
 Other useful flags: `--batch-dir sample_inputs/batch` (multi-candidate batch mode) and `pytest tests/` (run the test suite).
 
 ---
 
-## Getting Started — Web UI
+## Getting Started - Web UI
 
-The web UI wraps the exact same pipeline the CLI uses (`run_pipeline()` in `cli.py`) — it's strictly an input/output layer. Each run uploads the selected files to **S3**, downloads them back into a local temp folder (so extractors keep reading plain local paths, unchanged), runs the pipeline, and saves `output.json` back to S3 alongside the inputs. **You need your own AWS S3 bucket** to run this — see setup below.
+The web UI wraps the exact same pipeline the CLI uses (`run_pipeline()` in `cli.py`) - it's strictly an input/output layer. Each run uploads the selected files to **S3**, downloads them back into a local temp folder (so extractors keep reading plain local paths, unchanged), runs the pipeline, and saves `output.json` back to S3 alongside the inputs. **You need your own AWS S3 bucket** to run this - see setup below.
 
 ### 1. Clone & install
 
@@ -81,7 +81,7 @@ pip install -r requirements.txt
 
 ### 2. AWS S3 setup
 
-1. Create an S3 bucket in your AWS account (any region) — e.g. `eightfold-transformer-demo`.
+1. Create an S3 bucket in your AWS account (any region) - e.g. `eightfold-transformer-demo`.
 2. Create an IAM user (or use an existing one) with programmatic access and at minimum `s3:PutObject`, `s3:GetObject`, `s3:ListBucket` permissions on that bucket.
 3. Generate an access key ID + secret access key for that user.
 
@@ -100,7 +100,7 @@ Edit `.env` with your own values:
 | `AWS_DEFAULT_REGION` | Region your bucket lives in | `us-east-1` |
 | `S3_BUCKET_NAME` | The bucket you created above | `eightfold-transformer-demo` |
 
-`.env` is gitignored and never committed. Credentials are read via `python-dotenv` into environment variables — never hardcoded anywhere in the code.
+`.env` is gitignored and never committed. Credentials are read via `python-dotenv` into environment variables - never hardcoded anywhere in the code.
 
 ### 4. Run the UI
 
@@ -152,7 +152,7 @@ The ATS source deliberately uses its own field names (per the assignment). Expli
 
 ## Scale
 
-Grouping is a dict keyed by identity hash with indexed lookups, not a linear scan or graph traversal — verified empirically at 10,000 candidates in under 3 seconds. Shared CSV/ATS-JSON files are read once and split into per-candidate batches rather than re-opened per candidate. No database, caching layer, or distributed processing was built — a deliberate scope decision for an assignment-scale demo, not an oversight.
+Grouping is a dict keyed by identity hash with indexed lookups, not a linear scan or graph traversal - verified empirically at 10,000 candidates in under 3 seconds. Shared CSV/ATS-JSON files are read once and split into per-candidate batches rather than re-opened per candidate. No database, caching layer, or distributed processing was built - a deliberate scope decision for an assignment-scale demo, not an oversight.
 
 ---
 
