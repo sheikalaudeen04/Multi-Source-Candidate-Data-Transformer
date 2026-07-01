@@ -1,6 +1,6 @@
 # Multi-Source Candidate Data Transformer
 
-Merges candidate data from multiple structured/unstructured sources (CSV, ATS JSON, résumé, recruiter notes) into one canonical, confidence-scored, provenance-tracked profile - reshapable at runtime via config, no code changes.
+Merges candidate data from multiple structured/unstructured sources (CSV, ATS JSON, resume, recruiter notes) into one canonical, confidence-scored, provenance-tracked profile - reshapable at runtime via config, no code changes.
 
 Built for the Eightfold Engineering Intern (Jul–Dec 2026) take-home assignment.
 
@@ -52,7 +52,7 @@ python cli.py --csv sample_inputs/recruiter.csv --ats-json sample_inputs/ats.jso
 python cli.py --csv sample_inputs/recruiter.csv --ats-json sample_inputs/ats.json --resume sample_inputs/resume.docx --notes sample_inputs/notes.txt --config config/example_config.json --out output/profiles_custom.json
 ```
 
-`config/example_config.json` renames fields (`emails[0]` → `primary_email`), re-normalizes phone/skills, subsets the output, and turns provenance off — same engine, same code path as the default.
+`config/example_config.json` renames fields (`emails[0]` → `primary_email`), re-normalizes phone/skills, subsets the output, and turns provenance off - same engine, same code path as the default.
 
 ### 4. Run - with the conflict-resolution ledger
 
