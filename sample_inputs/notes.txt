@@ -1,0 +1,3 @@
+Spoke with Jane Doe (jane.doe@example.com) on a quick screening call.
+Mentioned she's comfortable with Python and SQL, has dabbled in machine learning.
+Also gave an alternate cell: 415-555-9981. Seemed strong, good communicator.

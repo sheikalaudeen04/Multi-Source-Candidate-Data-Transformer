@@ -1,0 +1,46 @@
+[
+  {
+    "candidate_ref": "ATS-1001",
+    "contact": {
+      "full_name": "Jane Doe",
+      "email_address": "jane.doe@example.com",
+      "mobile": "4155550142"
+    },
+    "current_role": {
+      "employer": "Google",
+      "job_title": null,
+      "started": null,
+      "ended": null,
+      "summary": null
+    },
+    "address": {
+      "town": "San Francisco",
+      "state": "California",
+      "nation": "USA"
+    },
+    "skill_tags": ["python", "sql"],
+    "summary_headline": "Backend engineer with cloud infra focus"
+  },
+  {
+    "candidate_ref": "ATS-1002",
+    "contact": {
+      "full_name": "Alex Kim",
+      "email_address": "alex.kim@example.com",
+      "mobile": "6505550199"
+    },
+    "current_role": {
+      "employer": "Acme Corp",
+      "job_title": "Product Manager",
+      "started": "2020-03",
+      "ended": null,
+      "summary": null
+    },
+    "address": {
+      "town": "Palo Alto",
+      "state": "California",
+      "nation": "USA"
+    },
+    "skill_tags": ["ml", "sql"],
+    "summary_headline": "PM focused on growth and ML products"
+  }
+]

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eightfold Candidate Transformer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>Multi-Source Candidate Data Transformer</h1>
+      
+    </div>
+  </header>
+
+  <main class="container">
+    {% if error %}
+      <div class="banner banner-error"><strong>Error:</strong> {{ error }}</div>
+    {% endif %}
+    {% if warning %}
+      <div class="banner banner-warning"><strong>Warning:</strong> {{ warning }}</div>
+    {% endif %}
+
+    <section class="card">
+      <h2>1. Choose output mode</h2>
+      <div class="mode-toggle">
+        <label class="mode-option">
+          <input type="radio" name="mode" value="default" form="run-form" id="mode-default"
+                 {% if mode != 'custom' %}checked{% endif %}>
+          <div>
+            <strong>Full canonical profile</strong>
+            <p class="muted">Default schema — every field, provenance, confidence scores, and the
+               conflict-resolution ledger (which source won each field, and why).</p>
+          </div>
+        </label>
+        <label class="mode-option">
+          <input type="radio" name="mode" value="custom" form="run-form" id="mode-custom"
+                 {% if mode == 'custom' %}checked{% endif %}>
+          <div>
+            <strong>Custom config</strong>
+            <p class="muted">Upload a projection config (subset/rename/normalize fields, toggle
+               provenance &amp; confidence, control missing-value behavior).</p>
+          </div>
+        </label>
+      </div>
+
+      <h2>2. Upload files</h2>
+      <form id="run-form" action="/run" method="post" enctype="multipart/form-data">
+        <label class="file-field">
+          Source files (select multiple — CSV, ATS JSON, one or more résumés, one or more notes files)
+          <input type="file" name="source_files" multiple required>
+        </label>
+        <label class="file-field collapsible {% if mode != 'custom' %}is-collapsed{% endif %}" id="config-field">
+          Config file (required for Custom config mode)
+          <input type="file" name="config_file" id="config-input" {% if mode == 'custom' %}required{% endif %}>
+        </label>
+        <button type="submit" class="btn-primary">Run pipeline</button>
+      </form>
+    </section>
+
+    {% if pretty_html %}
+    <section class="card">
+      <div class="result-header">
+        <h2>Result</h2>
+        <div class="view-tabs">
+          <button type="button" class="tab-btn active" data-target="pretty-view">Pretty view</button>
+          <button type="button" class="tab-btn" data-target="json-view">Raw JSON</button>
+          <a class="btn-secondary" href="/download/{{ run_id }}">Download JSON</a>
+        </div>
+      </div>
+
+      <div id="pretty-view" class="view-panel">
+        {{ pretty_html | safe }}
+      </div>
+      <div id="json-view" class="view-panel" hidden>
+        <pre class="json-block">{{ result }}</pre>
+      </div>
+    </section>
+    {% endif %}
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
